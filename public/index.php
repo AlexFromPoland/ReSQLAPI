@@ -41,12 +41,12 @@ function detectSQLType(string $query): string
 {
     $clean = trim($query);
 
-    // Blokuj groźne komendy
+    
     if (preg_match('/\b(DROP|TRUNCATE|ALTER|GRANT|REVOKE|--)\b/i', $clean)) {
         return 'forbidden';
     }
 
-    // Rozpoznaj typ zapytania
+    
     if (preg_match('/^\s*SELECT\b/i', $clean)) return 'select';
     if (preg_match('/^\s*INSERT\b/i', $clean)) return 'insert';
     if (preg_match('/^\s*UPDATE\b/i', $clean)) return 'update';
@@ -56,7 +56,7 @@ function detectSQLType(string $query): string
 }
 
 
-//ENDPOINTY API
+//ENDPOINT API
 $app->get('/', function (Request $request, Response $response) {
 
     $responseData = ['greetings' => "Welcome To Main RAPI site!", "avalaible endpoints" => ['GetAPIKey', 'AddDB', 'SQLCommand']];
@@ -74,7 +74,7 @@ $app->get('/GetAPIKey', function (Request $request, Response $response) {
     $token = str_replace('Bearer ', '', $authHeader);
 
 
-    //dodać .env i odcytywać dane z .env
+    
     if ($token !== $_ENV['TOKEN']) {
         return Response($response, ['status' => 'error', 'message' => 'Unauthorized']);
     }
@@ -146,7 +146,7 @@ $app->get('/AddDB', function (Request $request, Response $response) {
 
     $conn = getDatabaseConnection();
 
-    // Sprawdź czy połączenie się nie nie udało
+    
     if (is_array($conn) && $conn['error']) {
         $responseData = [
             'status' => 'error',
@@ -190,7 +190,7 @@ $app->get('/AddDB', function (Request $request, Response $response) {
         try {
             $conn = getDatabaseConnection();
 
-            // Sprawdź czy połączenie się nie nie udało
+          
             if (is_array($conn) && $conn['error']) {
                 $responseData = [
                     'status' => 'error',
@@ -237,7 +237,7 @@ $app->get('/SQLCommand', function (Request $request, Response $response) {
 
     $conn = getDatabaseConnection();
 
-    // Sprawdź czy połączenie się nie nie udało
+    
     if (is_array($conn) && $conn['error']) {
         $responseData = [
             'status' => 'error',
@@ -278,7 +278,7 @@ $app->get('/SQLCommand', function (Request $request, Response $response) {
         try {
             $conn = getDatabaseConnection();
 
-            // Sprawdź czy połączenie się nie nie udało
+      
             if (is_array($conn) && $conn['error']) {
                 $responseData = [
                     'status' => 'error',
